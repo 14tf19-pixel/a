@@ -1,0 +1,2661 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="tool">
+  <meta name="design-style" content="sticker">
+  <title>倉頡輔助字形・打地鼠大作戰</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..900;1,9..40,400..900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Sticker Style Base Tokens */
+      --background: #fef7ff;
+      --surface-container-low: #ffffff;
+      --surface-container: #f8eef8;
+      --surface-container-high: #f2e8f2;
+
+      /* Ink */
+      --on-surface: #2e1a28;
+      --on-surface-variant: #604868;
+
+      /* Rules */
+      --outline: #907898;
+      --outline-variant: #dcc8e0;
+
+      /* Accents */
+      --primary: #c2207f;
+      --on-primary: #ffffff;
+      --primary-container: #f080c0;
+      --on-primary-container: #2e1a28;
+      --secondary: #7c52aa;
+      --on-secondary: #ffffff;
+      --secondary-container: #ebe0fa;
+      --tertiary: #0096cc;
+      --tertiary-soft: #e0f5fe;
+      --error: #c53030;
+      --on-error: #ffffff;
+      --error-soft: #fee2e2;
+
+      /* Data series */
+      --data-1: #c2207f;
+      --data-2: #7c52aa;
+      --data-3: #0096cc;
+      --data-4: #d96a00;
+      --data-context: #c8b8d0;
+
+      /* Semantic & Arcade Stage Tokens */
+      --positive: #15803d;
+      --on-positive: #ffffff;
+      --positive-soft: #dcfce7;
+      --warning: #b45309;
+      --warning-bright: #f59e0b;
+      --gold-soft: #fef3c7;
+      --focus: var(--primary);
+
+      /* Arcade Meadow & Mole Palette */
+      --meadow-top: #e8f8d8;
+      --meadow-bottom: #cbeea6;
+      --meadow-edge: #93d058;
+      --hole-rim: #b87344;
+      --hole-rim-dark: #874e28;
+      --hole-deep: #3d2113;
+      --mole-fur: #b97a4b;
+      --mole-fur-dark: #915931;
+      --mole-belly: #f7dec4;
+      --mole-cheek: #f590b8;
+      --mole-nose: #d93870;
+      --mallet-wood: #d9822b;
+      --mallet-head: #a85418;
+      --mallet-handle: #f3c178;
+      --fever-glow: #ff8a00;
+      --sky-badge-bg: #e6f6fc;
+
+      /* Fonts */
+      --font-headline: 'Noto Sans TC', 'DM Sans', sans-serif;
+      --font-body: 'Noto Sans TC', 'DM Sans', sans-serif;
+      --font-label: 'Noto Sans TC', 'DM Sans', sans-serif;
+
+      /* Type Scale (Focused Tool / Game) */
+      --display-size: clamp(1.75rem, 1.35rem + 1.5vw, 2.5rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.55rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.2rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.78rem;
+
+      --font-size-glyph-sm: 0.72rem;
+      --font-size-glyph: 2.15rem;
+      --font-size-glyph-mobile: 1.65rem;
+      --font-size-stat: 1.35rem;
+      --font-size-duel: 2rem;
+      --font-size-review: 1.5rem;
+      --font-size-key: 0.95rem;
+      --font-size-pill: 1.25rem;
+
+      /* Shape */
+      --rounded: 1rem;
+      --rounded-lg: 2rem;
+      --rounded-full: 9999px;
+
+      /* Tinted Effects (Never grey/black) */
+      --shadow-pink: 0 4px 16px rgb(224 64 160 / 0.2);
+      --shadow-pink-deep: 0 10px 28px rgb(224 64 160 / 0.34);
+      --shadow-grape: 0 4px 16px rgb(124 82 170 / 0.2);
+      --shadow-grape-deep: 0 10px 26px rgb(124 82 170 / 0.32);
+      --shadow-sky: 0 4px 16px rgb(0 150 204 / 0.2);
+      --shadow-meadow: 0 10px 30px rgb(80 140 40 / 0.22);
+      --shadow-gold: 0 6px 22px rgb(245 158 11 / 0.34);
+      --shadow-fever: 0 0 0 5px var(--warning-bright), 0 0 32px rgb(224 64 160 / 0.45);
+      --pop-scale: scale(1.04);
+      --lift: translateY(-4px);
+
+      /* Spacing Scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base Reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+      -webkit-tap-highlight-color: transparent;
+    }
+    header { position: static !important; }
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-lg);
+      padding: var(--space-lg);
+      max-width: 1120px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Header & Title Block */
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-md);
+    }
+    .title-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .kicker-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+    }
+    .badge-grape {
+      background-color: var(--secondary-container);
+      color: var(--secondary);
+    }
+    .badge-gold {
+      background-color: var(--gold-soft);
+      color: var(--warning);
+    }
+
+    .display {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: var(--display-size);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin: 0;
+      color: var(--on-surface);
+    }
+    .display em {
+      font-style: normal;
+      color: var(--primary);
+    }
+    .subtitle {
+      margin: 0;
+      color: var(--on-surface-variant);
+      max-width: 65ch;
+      font-size: var(--body-size);
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    /* Buttons & Pills */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-lg);
+      border: none;
+      border-radius: var(--rounded-full);
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  box-shadow var(--dur-short) var(--ease-out),
+                  background-color var(--dur-micro) var(--ease-out);
+      user-select: none;
+    }
+    .btn:hover:not(:disabled) {
+      transform: var(--pop-scale);
+    }
+    .btn:active:not(:disabled) {
+      transform: scale(0.96);
+    }
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      box-shadow: var(--shadow-pink);
+    }
+    .btn-primary:hover:not(:disabled) {
+      box-shadow: var(--shadow-pink-deep);
+    }
+    .btn-secondary {
+      background-color: var(--secondary);
+      color: var(--on-secondary);
+      box-shadow: var(--shadow-grape);
+    }
+    .btn-secondary:hover:not(:disabled) {
+      box-shadow: var(--shadow-grape-deep);
+    }
+    .btn-surface {
+      background-color: var(--surface-container-low);
+      color: var(--on-surface);
+      box-shadow: var(--shadow-sky);
+    }
+    .btn-lg {
+      min-height: 52px;
+      padding: var(--space-md) var(--space-xl);
+      font-size: var(--subhead-size);
+    }
+
+    /* Control Strip (Mode + Lesson Filter) */
+    .control-deck {
+      background-color: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      box-shadow: var(--shadow-grape);
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: var(--space-md);
+      align-items: end;
+    }
+    .control-block {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .control-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--on-surface-variant);
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+    .chip {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline-variant);
+      background-color: var(--surface-container);
+      color: var(--on-surface);
+      font-weight: 700;
+      font-size: var(--label-size);
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  background-color var(--dur-micro) var(--ease-out),
+                  border-color var(--dur-micro) var(--ease-out);
+      user-select: none;
+    }
+    .chip:hover {
+      transform: var(--pop-scale);
+      border-color: var(--secondary);
+    }
+    .chip[aria-pressed="true"] {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      color: var(--on-primary);
+      box-shadow: var(--shadow-pink);
+    }
+    .chip-secondary[aria-pressed="true"] {
+      background-color: var(--secondary);
+      border-color: var(--secondary);
+      color: var(--on-secondary);
+      box-shadow: var(--shadow-grape);
+    }
+
+    /* Arcade Cabinet Wrapper */
+    .arcade-arena {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-md);
+    }
+
+    /* HUD Bar */
+    .hud-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+    .hud-card {
+      background-color: var(--surface-container-low);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      box-shadow: var(--shadow-pink);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .hud-card:nth-child(3n+2) { box-shadow: var(--shadow-sky); }
+    .hud-card:nth-child(3n+3) { box-shadow: var(--shadow-grape); }
+    .hud-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--on-surface-variant);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .hud-value {
+      font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1;
+      color: var(--on-surface);
+    }
+    .hud-value.accent-pink { color: var(--primary); }
+    .hud-value.accent-grape { color: var(--secondary); }
+    .hud-value.accent-danger { color: var(--error); }
+
+    .timer-track {
+      width: 100%;
+      height: 12px;
+      background-color: var(--surface-container-high);
+      border-radius: var(--rounded-full);
+      overflow: hidden;
+      margin-top: var(--space-xs);
+    }
+    .timer-fill {
+      height: 100%;
+      width: 100%;
+      background-color: var(--tertiary);
+      border-radius: var(--rounded-full);
+      transition: width 180ms linear, background-color var(--dur-short) var(--ease-out);
+    }
+    .timer-fill.is-warn { background-color: var(--warning-bright); }
+    .timer-fill.is-urgent { background-color: var(--error); }
+
+    .combo-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: 2px var(--space-sm);
+      border-radius: var(--rounded-full);
+      background-color: var(--surface-container);
+      color: var(--secondary);
+      font-size: var(--label-size);
+      font-weight: 700;
+    }
+    .combo-pill.is-fever {
+      background-color: var(--gold-soft);
+      color: var(--warning);
+    }
+
+    /* Mission Signboard */
+    .mission-board {
+      background-color: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      box-shadow: var(--shadow-pink-deep);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      position: relative;
+      overflow: hidden;
+    }
+    .mission-board.is-pop {
+      animation: sign-pop 340ms var(--ease-bounce);
+    }
+    .mission-main {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+    .target-token {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--rounded-full);
+      background-color: var(--primary);
+      color: var(--on-primary);
+      box-shadow: var(--shadow-pink);
+      font-weight: 900;
+      font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.85rem);
+      line-height: 1.1;
+    }
+    .target-key-cap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.1rem;
+      height: 2.1rem;
+      padding: 0 var(--space-sm);
+      border-radius: var(--rounded-full);
+      background-color: var(--surface-container-low);
+      color: var(--primary);
+      font-weight: 900;
+      font-size: 1.15rem;
+    }
+    .mission-prompt-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .mission-title {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: var(--headline-size);
+      margin: 0;
+      color: var(--on-surface);
+    }
+    .mission-hint {
+      margin: 0;
+      color: var(--on-surface-variant);
+      font-weight: 500;
+      font-size: var(--body-size);
+    }
+    .mission-side {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+    }
+
+    /* 3x3 Meadow Stage */
+    .stage-shell {
+      position: relative;
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      background: linear-gradient(180deg, var(--meadow-top) 0%, var(--meadow-bottom) 100%);
+      box-shadow: var(--shadow-meadow);
+      overflow: hidden;
+      transition: box-shadow var(--dur-short) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+      min-height: 460px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .stage-shell.is-fever {
+      box-shadow: var(--shadow-fever);
+    }
+    .stage-shell.is-shake {
+      animation: board-shake 280ms var(--ease-out);
+    }
+
+    .fx-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .fever-banner {
+      position: absolute;
+      top: var(--space-md);
+      left: 50%;
+      transform: translateX(-50%) scale(0.9);
+      background-color: var(--warning-bright);
+      color: var(--on-surface);
+      padding: var(--space-xs) var(--space-lg);
+      border-radius: var(--rounded-full);
+      font-weight: 900;
+      font-size: var(--label-size);
+      box-shadow: var(--shadow-gold);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 15;
+      transition: opacity var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-bounce);
+    }
+    .stage-shell.is-fever .fever-banner {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+
+    .mole-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-lg);
+      position: relative;
+      z-index: 5;
+      max-width: 780px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .hole-cell {
+      position: relative;
+      height: 148px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      user-select: none;
+    }
+
+    /* Soil mound & hole */
+    .hole-pit {
+      position: relative;
+      width: 100%;
+      max-width: 196px;
+      height: 132px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: var(--rounded-lg);
+    }
+    .hole-back {
+      position: absolute;
+      bottom: 8px;
+      width: 86%;
+      height: 40px;
+      background-color: var(--hole-deep);
+      border-radius: var(--rounded-full);
+      box-shadow: 0 0 0 6px var(--hole-rim);
+      z-index: 1;
+    }
+    .hole-front-lip {
+      position: absolute;
+      bottom: 0;
+      width: 94%;
+      height: 24px;
+      background-color: var(--hole-rim-dark);
+      border-radius: var(--rounded-full);
+      z-index: 4;
+      pointer-events: none;
+      box-shadow: 0 4px 0 var(--meadow-edge);
+    }
+
+    /* Interactive Mole Button */
+    .mole-btn {
+      position: relative;
+      z-index: 3;
+      width: 148px;
+      height: 124px;
+      border: none;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      transform: translateY(118px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 200ms var(--ease-bounce), opacity 140ms var(--ease-out);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .mole-btn.is-up {
+      transform: translateY(6px);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .mole-btn.is-up:hover {
+      transform: translateY(0px) scale(1.03);
+    }
+    .mole-btn.is-up:active {
+      transform: translateY(14px) scale(0.95);
+    }
+    .mole-btn.is-whacked-ok {
+      transform: translateY(28px) scale(0.9, 0.78);
+      opacity: 1;
+      pointer-events: none;
+    }
+    .mole-btn.is-whacked-bad {
+      transform: translateY(10px) rotate(-6deg);
+      opacity: 1;
+      pointer-events: none;
+    }
+
+    /* Mole Signboard Card held by mole */
+    .mole-card {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 108px;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+      background-color: var(--surface-container-low);
+      box-shadow: var(--shadow-pink);
+      border: 3px solid var(--primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .mole-card.is-key-card {
+      border-color: var(--secondary);
+      box-shadow: var(--shadow-grape);
+    }
+    .mole-glyph {
+      font-size: 2.15rem;
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--on-surface);
+    }
+    .mole-sub {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--on-surface-variant);
+      line-height: 1.1;
+      margin-top: 2px;
+      white-space: nowrap;
+    }
+
+    .mole-svg {
+      width: 112px;
+      height: 76px;
+      display: block;
+      margin-top: auto;
+      pointer-events: none;
+    }
+
+    /* Mallet Animation Overlay */
+    .mallet-fx {
+      position: absolute;
+      top: -14px;
+      right: 4px;
+      width: 78px;
+      height: 78px;
+      z-index: 12;
+      pointer-events: none;
+      opacity: 0;
+      transform-origin: 80% 80%;
+      transform: rotate(35deg) scale(0.8);
+    }
+    .mallet-fx.is-swing {
+      animation: mallet-bonk 300ms var(--ease-out) forwards;
+    }
+
+    /* Floating Score Pop */
+    .float-feedback {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 25;
+      pointer-events: none;
+      font-weight: 900;
+      font-size: 1.1rem;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      white-space: nowrap;
+      opacity: 0;
+    }
+    .float-feedback.is-good {
+      background-color: var(--surface-container-low);
+      color: var(--primary);
+      box-shadow: var(--shadow-pink-deep);
+      animation: float-up 700ms var(--ease-out) forwards;
+    }
+    .float-feedback.is-bad {
+      background-color: var(--error);
+      color: var(--on-error);
+      box-shadow: var(--shadow-pink);
+      animation: float-up 880ms var(--ease-out) forwards;
+    }
+
+    /* Start / End Overlay inside Stage */
+    .stage-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 30;
+      background-color: rgb(254 247 255 / 0.92);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-lg);
+      transition: opacity var(--dur-short) var(--ease-out);
+    }
+    .stage-overlay.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .overlay-card {
+      background-color: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-pink-deep);
+      max-width: 680px;
+      width: 100%;
+      max-height: 100%;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      text-align: left;
+    }
+    .overlay-headline {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+      margin: 0;
+      color: var(--on-surface);
+      line-height: 1.15;
+    }
+    .overlay-headline em {
+      font-style: normal;
+      color: var(--primary);
+    }
+
+    .result-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      background-color: var(--surface-container);
+      padding: var(--space-md) var(--space-lg);
+      border-radius: var(--rounded);
+    }
+    .rank-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--rounded-full);
+      background-color: var(--primary);
+      color: var(--on-primary);
+      font-weight: 900;
+      font-size: var(--subhead-size);
+      box-shadow: var(--shadow-pink);
+    }
+    .rank-stamp.rank-s {
+      background-color: var(--warning-bright);
+      color: var(--on-surface);
+      box-shadow: var(--shadow-gold);
+    }
+    .rank-stamp.rank-a {
+      background-color: var(--secondary);
+      color: var(--on-secondary);
+      box-shadow: var(--shadow-grape);
+    }
+
+    .summary-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+    .stat-mini {
+      background-color: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .stat-mini-label {
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--on-surface-variant);
+    }
+    .stat-mini-val {
+      font-size: 1.35rem;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      color: var(--on-surface);
+    }
+
+    /* Post-Game Cheat Sheet */
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(185px, 100%), 1fr));
+      gap: var(--space-sm);
+    }
+    .review-item {
+      background-color: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .review-item.is-missed {
+      background-color: var(--error-soft);
+    }
+    .review-glyph {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      border-radius: var(--rounded);
+      background-color: var(--surface-container-low);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--primary);
+      box-shadow: var(--shadow-pink);
+    }
+    .review-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: var(--label-size);
+    }
+    .review-root {
+      font-weight: 900;
+      color: var(--on-surface);
+    }
+    .review-tip {
+      color: var(--on-surface-variant);
+      line-height: 1.3;
+    }
+
+    /* Field Guide / Encyclopedia Section */
+    .guide-section {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .section-title {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: var(--headline-size);
+      margin: 0;
+      color: var(--on-surface);
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+    .card-wrapper {
+      container-type: inline-size;
+    }
+    .guide-card {
+      background-color: var(--surface-container-low);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-pink);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      height: 100%;
+    }
+    .card-wrapper:nth-child(3n+2) .guide-card { box-shadow: var(--shadow-sky); }
+    .card-wrapper:nth-child(3n+3) .guide-card { box-shadow: var(--shadow-grape); }
+
+    .guide-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .guide-root-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-weight: 900;
+      font-size: var(--subhead-size);
+      color: var(--on-surface);
+    }
+    .guide-key {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--rounded-full);
+      background-color: var(--primary);
+      color: var(--on-primary);
+      font-weight: 900;
+      font-size: 0.95rem;
+    }
+    .guide-shapes-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+    .shape-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      background-color: var(--surface-container);
+      color: var(--on-surface);
+      font-weight: 700;
+    }
+    .shape-pill strong {
+      font-size: var(--font-size-pill);
+      color: var(--primary);
+    }
+    .guide-note {
+      margin: 0;
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+
+    /* Helper Layout Classes */
+    .duel-badge { margin-bottom: var(--space-xs); }
+    .duel-title { font-weight: 900; }
+    .review-heading { font-size: var(--subhead-size); margin-bottom: var(--space-sm); }
+
+    /* Mouth vs Box Duel Spotlight Card */
+    .duel-card {
+      background-color: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-sky);
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-lg);
+    }
+    .duel-side {
+      background-color: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .duel-symbol {
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      border-radius: var(--rounded);
+      background-color: var(--surface-container-low);
+      box-shadow: var(--shadow-pink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--primary);
+    }
+    .duel-side:nth-child(2) .duel-symbol {
+      color: var(--secondary);
+      box-shadow: var(--shadow-grape);
+    }
+
+    /* Footer */
+    .source-footer {
+      color: var(--on-surface-variant);
+      font-size: var(--label-size);
+      padding-bottom: var(--space-lg);
+    }
+
+    /* Keyframes */
+    @keyframes mallet-bonk {
+      0% { opacity: 1; transform: rotate(40deg) scale(0.95); }
+      35% { opacity: 1; transform: rotate(-42deg) scale(1.12); }
+      75% { opacity: 1; transform: rotate(-20deg) scale(1); }
+      100% { opacity: 0; transform: rotate(15deg) scale(0.85); }
+    }
+    @keyframes float-up {
+      0% { opacity: 0; transform: translate(-50%, 10px) scale(0.8); }
+      22% { opacity: 1; transform: translate(-50%, -8px) scale(1.08); }
+      100% { opacity: 0; transform: translate(-50%, -44px) scale(0.96); }
+    }
+    @keyframes board-shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-7px); }
+      45% { transform: translateX(7px); }
+      70% { transform: translateX(-4px); }
+    }
+    @keyframes sign-pop {
+      0% { transform: scale(0.96); }
+      55% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+
+    @container (max-width: 300px) {
+      .guide-card { padding: var(--space-md); }
+    }
+
+    @media (max-width: 780px) {
+      .control-deck {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hud-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .summary-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .duel-card {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-sm);
+        gap: var(--space-md);
+      }
+      .stage-shell {
+        padding: var(--space-md) var(--space-sm);
+        min-height: 390px;
+      }
+      .mole-grid {
+        gap: var(--space-sm);
+      }
+      .hole-cell {
+        height: 126px;
+      }
+      .hole-pit {
+        height: 114px;
+      }
+      .mole-btn {
+        width: 106px;
+        height: 108px;
+      }
+      .mole-card {
+        min-width: 82px;
+        padding: 2px var(--space-xs);
+      }
+      .mole-glyph {
+        font-size: 1.65rem;
+      }
+      .mole-svg {
+        width: 88px;
+        height: 60px;
+      }
+      .overlay-card {
+        padding: var(--space-lg);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-grid">
+    <!-- Header -->
+    <header class="top-bar">
+      <div class="title-group">
+        <div class="kicker-row">
+          <span class="badge">小四資訊科技・第 7–9 課</span>
+          <span class="badge badge-grape" id="best-score-badge">最高分：0</span>
+          <span class="badge badge-gold" id="best-combo-badge">最佳連擊：0x</span>
+        </div>
+        <h1 class="display">倉頡輔助字形 <em>打地鼠</em> 大作戰</h1>
+        <p class="subtitle">60 秒街機極速反應挑戰！瞄準頂部任務指示牌，一槌敲暈正確的變形字形小怪，連擊累積狂熱倍率拿 S 級倉頡神探稱號！</p>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="btn btn-surface" id="sound-toggle-btn" onclick="toggleSound()" aria-pressed="true">
+          🔊 音效：開啟
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="scrollToGuide()">
+          📖 字形圖鑑
+        </button>
+      </div>
+    </header>
+
+    <!-- Mode & Unit Selection -->
+    <section class="control-deck" aria-label="遊戲模式設定">
+      <div class="control-block">
+        <span class="control-label">選擇挑戰單元（第 7–9 課全收錄）</span>
+        <div class="pill-row" role="group" aria-label="單元篩選">
+          <button type="button" class="chip" data-unit="all" aria-pressed="true" onclick="setUnitFilter('all')">🌟 全課大混戰</button>
+          <button type="button" class="chip" data-unit="philosophical" aria-pressed="false" onclick="setUnitFilter('philosophical')">💧 哲理類 (第7課)</button>
+          <button type="button" class="chip" data-unit="strokes" aria-pressed="false" onclick="setUnitFilter('strokes')">🎋 筆劃類 (第8課)</button>
+          <button type="button" class="chip" data-unit="bodyshape" aria-pressed="false" onclick="setUnitFilter('bodyshape')">💖 人身與字形 (第9課)</button>
+        </div>
+      </div>
+      <div class="control-block">
+        <span class="control-label">選擇遊玩方式</span>
+        <div class="pill-row" role="group" aria-label="遊玩方式">
+          <button type="button" class="chip chip-secondary" data-mode="shape" aria-pressed="true" onclick="setPlayMode('shape')">🔨 找輔助字形</button>
+          <button type="button" class="chip chip-secondary" data-mode="key" aria-pressed="false" onclick="setPlayMode('key')">⌨️ 選鍵盤字母</button>
+          <button type="button" class="chip chip-secondary" data-mode="chaos" aria-pressed="false" onclick="setPlayMode('chaos')">⚡ 雙重混戰</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Arcade Area -->
+    <main class="arcade-arena">
+      <!-- Live 60s HUD -->
+      <section class="hud-grid" aria-label="即時遊戲戰況">
+        <div class="hud-card">
+          <div class="hud-label">
+            <span>剩餘時間</span>
+            <span id="timer-status-tag">準備開戰</span>
+          </div>
+          <div class="hud-value accent-pink" id="hud-timer">60s</div>
+          <div class="timer-track" aria-hidden="true">
+            <div class="timer-fill" id="timer-bar"></div>
+          </div>
+        </div>
+
+        <div class="hud-card">
+          <div class="hud-label">
+            <span>目前得分</span>
+            <span id="multiplier-badge" class="combo-pill">1X 倍率</span>
+          </div>
+          <div class="hud-value" id="hud-score">0</div>
+        </div>
+
+        <div class="hud-card">
+          <div class="hud-label">
+            <span>Combo 連擊</span>
+            <span id="combo-state-tag" class="combo-pill">蓄力中</span>
+          </div>
+          <div class="hud-value accent-grape" id="hud-combo">0</div>
+        </div>
+
+        <div class="hud-card">
+          <div class="hud-label">
+            <span>命中 / 正確率</span>
+            <span id="hud-hits-label">0 擊中</span>
+          </div>
+          <div class="hud-value" id="hud-accuracy">100%</div>
+        </div>
+      </section>
+
+      <!-- Mission Signboard -->
+      <section class="mission-board" id="mission-board" aria-live="polite">
+        <div class="mission-main">
+          <div class="target-token" id="mission-badge">
+            <span id="mission-badge-main">水</span>
+            <span class="target-key-cap" id="mission-badge-key">E</span>
+          </div>
+          <div class="mission-prompt-wrap">
+            <h2 class="mission-title" id="mission-title">快找出【水 (E)】的變形小怪！</h2>
+            <p class="mission-hint" id="mission-hint">提示：點擊「開始 60 秒挑戰」就會冒出地鼠！</p>
+          </div>
+        </div>
+        <div class="mission-side">
+          <span class="badge badge-grape" id="mission-category-pill">哲理類</span>
+          <button type="button" class="btn btn-primary" id="quick-action-btn" onclick="startOrRestartGame()">
+            🚀 開始挑戰
+          </button>
+        </div>
+      </section>
+
+      <!-- 3x3 Whack-a-Mole Stage -->
+      <section class="stage-shell" id="stage-shell" aria-label="3乘3打地鼠遊戲盤">
+        <canvas class="fx-canvas" id="fx-canvas" aria-hidden="true"></canvas>
+        <div class="fever-banner" id="fever-banner">🔥 FEVER 狂熱模式！連擊倍率暴增中！</div>
+
+        <div class="mole-grid" id="mole-grid">
+          <!-- 9 holes rendered by JS for clean DOM structure and zero duplication -->
+        </div>
+
+        <!-- Start / Result Overlay -->
+        <div class="stage-overlay" id="stage-overlay">
+          <div class="overlay-card" id="overlay-start-view">
+            <div class="kicker-row">
+              <span class="badge">60 秒街機衝刺</span>
+              <span class="badge badge-gold">連擊 5 次開啟 FEVER 彩虹狂熱！</span>
+            </div>
+            <h2 class="overlay-headline">準備好把 <em>變形小怪</em> 敲回洞裡了嗎？</h2>
+            <p class="subtitle">
+              每一波地鼠會舉著不同的輔助字形探頭！看準頂部任務牌的目標（例如 <strong>水 (E)</strong>、<strong>竹 (H)</strong>、<strong>心 (P)</strong>），快速點擊或觸控敲下去！也可以用鍵盤數字鍵 <strong>1–9</strong> 對應九宮格喔！
+            </p>
+            <div class="pill-row">
+              <button type="button" class="btn btn-primary btn-lg" onclick="startOrRestartGame()">
+                🔨 立即開始 60 秒大作戰！
+              </button>
+            </div>
+          </div>
+
+          <div class="overlay-card" id="overlay-result-view" hidden>
+            <div class="result-banner">
+              <div>
+                <div class="kicker-row">
+                  <span class="badge" id="result-verdict-badge">SUCCESS 過關成功！</span>
+                  <span class="badge badge-gold" id="result-new-record" hidden>🏆 刷新個人最高分！</span>
+                </div>
+                <h2 class="overlay-headline" id="result-headline">時間到！戰果結算</h2>
+              </div>
+              <div class="rank-stamp" id="result-rank-stamp">S 級・倉頡神探</div>
+            </div>
+
+            <div class="summary-stats">
+              <div class="stat-mini">
+                <span class="stat-mini-label">總得分</span>
+                <span class="stat-mini-val" id="res-score">0</span>
+              </div>
+              <div class="stat-mini">
+                <span class="stat-mini-label">最高連擊</span>
+                <span class="stat-mini-val" id="res-combo">0x</span>
+              </div>
+              <div class="stat-mini">
+                <span class="stat-mini-label">正確命中</span>
+                <span class="stat-mini-val" id="res-hits">0</span>
+              </div>
+              <div class="stat-mini">
+                <span class="stat-mini-label">即時正確率</span>
+                <span class="stat-mini-val" id="res-acc">0%</span>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="section-title review-heading">
+                ⚡ 剛才遇到的輔助字形記憶秘笈
+              </h3>
+              <div class="review-grid" id="result-review-grid"></div>
+            </div>
+
+            <div class="pill-row">
+              <button type="button" class="btn btn-primary btn-lg" onclick="startOrRestartGame()">
+                🔥 再玩一次 (Play Again)
+              </button>
+              <button type="button" class="btn btn-surface" onclick="closeResultToIdle()">
+                切換單元或模式
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Mouth (R) vs Box (W) Quick Visual Guide + Full Lesson 7-9 Encyclopedia -->
+    <section class="guide-section" id="guide-section" aria-label="倉頡輔助字形秘密圖鑑">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">輔助字形秘密圖鑑（第 7–9 課速記卡）</h2>
+          <p class="subtitle">賽前先瞄一眼「超級容易搞混雙胞胎」，再進場保證連擊狂飆！</p>
+        </div>
+        <div class="pill-row" role="group" aria-label="圖鑑分類篩選">
+          <button type="button" class="chip" data-guide="all" aria-pressed="true" onclick="filterGuide('all')">全部 24 字根</button>
+          <button type="button" class="chip" data-guide="philosophical" aria-pressed="false" onclick="filterGuide('philosophical')">哲理類</button>
+          <button type="button" class="chip" data-guide="strokes" aria-pressed="false" onclick="filterGuide('strokes')">筆劃類</button>
+          <button type="button" class="chip" data-guide="bodyshape" aria-pressed="false" onclick="filterGuide('bodyshape')">人身與字形</button>
+        </div>
+      </div>
+
+      <!-- Special Comparison: 口 (R) vs 田 (W) -->
+      <div class="duel-card">
+        <div class="duel-side">
+          <div class="duel-symbol">口</div>
+          <div>
+            <div class="badge duel-badge">人身類・按鍵 R</div>
+            <div class="duel-title">「口 (R)」＝ 空心小嘴巴</div>
+            <div class="guide-note">裡面沒有包住其他筆劃！例字：<strong>吃、喝、唱、同</strong></div>
+          </div>
+        </div>
+        <div class="duel-side">
+          <div class="duel-symbol">囗</div>
+          <div>
+            <div class="badge badge-grape duel-badge">字形類・按鍵 W</div>
+            <div class="duel-title">「田 (W)」＝ 大框框／網字頭（囗 / 罒）</div>
+            <div class="guide-note">把字「圍在裡面」的方框或四格網！例字：<strong>國、回、園、買</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-grid" id="guide-card-grid"></div>
+    </section>
+
+    <footer class="source-footer">
+      課程內容依據小學四年級資訊科技《Dr. PC Family E-book》第 7 至 9 課倉頡字碼與輔助字形教學進度設計。
+    </footer>
+  </div>
+
+  <api-shim></api-shim>
+  <script>
+    /* =========================================================================
+       1. CANGJIE AUXILIARY SHAPES DATASET (Lessons 7-9, Grade 4 IT)
+       ========================================================================= */
+    const CANGJIE_RADICALS = [
+      // 哲理類 (Lesson 7)
+      {
+        id: 'A', key: 'A', root: '日', unit: 'philosophical', unitLabel: '哲理類',
+        shapes: [
+          { glyph: `日`, sub: `日光(如:明/早)`, tip: `太陽公公本尊，橫直方正就是日` },
+          { glyph: `曰`, sub: `扁日(如:書/曲)`, tip: `扁扁的「曰」也屬於日 (A) 家族` }
+        ],
+        confusedWith: ['W', 'R']
+      },
+      {
+        id: 'B', key: 'B', root: '月', unit: 'philosophical', unitLabel: '哲理類',
+        shapes: [
+          { glyph: `⺼`, sub: `肉月旁(如:肚/肥)`, tip: `身體部位的肉月旁就是月 (B)` },
+          { glyph: `爫`, sub: `爪字頭(如:愛/采)`, tip: `頭頂三點爪子蓋，也是月 (B) 變身` },
+          { glyph: `夕`, sub: `夕陽(如:外/多)`, tip: `彎彎月亮變夕陽，一樣按月 (B)` }
+        ],
+        confusedWith: ['S', 'D']
+      },
+      {
+        id: 'C', key: 'C', root: '金', unit: 'philosophical', unitLabel: '哲理類',
+        shapes: [
+          { glyph: `釒`, sub: `金字旁(如:鐵/銀)`, tip: `金屬類的「釒」旁就是金 (C)` },
+          { glyph: `丷`, sub: `倒八(如:公/曾)`, tip: `兩點八字頭朝下，藏著金 (C)` }
+        ],
+        confusedWith: ['O', 'F']
+      },
+      {
+        id: 'D', key: 'D', root: '木', unit: 'philosophical', unitLabel: '哲理類',
+        shapes: [
+          { glyph: `朩`, sub: `木字旁(如:林/樹)`, tip: `左邊瘦瘦的木字旁是朩 (D)` },
+          { glyph: `木`, sub: `樹木(如:杏/呆)`, tip: `一棵大樹就是木 (D)` }
+        ],
+        confusedWith: ['J', 'K']
+      },
+      {
+        id: 'E', key: 'E', root: '水', unit: 'philosophical', unitLabel: '哲理類',
+        shapes: [
+          { glyph: `氵`, sub: `三點水(如:河/海)`, tip: `三點水滴左邊站，一定是水 (E)` },
+          { glyph: `又`, sub: `又字旁(如:友/雙)`, tip: `特別小心！「又」在倉頡屬於水 (E)` },
+          { glyph: `氺`, sub: `下水底(如:泰/求)`, tip: `底部五點水花，也是水 (E)` }
+        ],
+        confusedWith: ['F', 'P']
+      },
+      {
+        id: 'F', key: 'F', root: '火', unit: 'philosophical', unitLabel: '哲理類',
+        shapes: [
+          { glyph: `灬`, sub: `四點火(如:熱/煮)`, tip: `鍋底四點熊熊大火，就是火 (F)` },
+          { glyph: `⺌`, sub: `小字頭(如:光/常)`, tip: `上面三點小火花，也是火 (F)` },
+          { glyph: `小`, sub: `小字(如:少/尖)`, tip: `火苗變小小，一樣按火 (F)` }
+        ],
+        confusedWith: ['E', 'C']
+      },
+      {
+        id: 'G', key: 'G', root: '土', unit: 'philosophical', unitLabel: '哲理類',
+        shapes: [
+          { glyph: `土`, sub: `提土旁(如:地/城)`, tip: `泥土土地就是土 (G)` },
+          { glyph: `士`, sub: `士字頭(如:吉/喜)`, tip: `上長下短的「士」也是土 (G)` }
+        ],
+        confusedWith: ['J', 'M']
+      },
+
+      // 筆劃類 (Lesson 8)
+      {
+        id: 'H', key: 'H', root: '竹', unit: 'strokes', unitLabel: '筆劃類',
+        shapes: [
+          { glyph: `⺮`, sub: `竹字頭(如:笑/筆)`, tip: `屋頂兩撇小竹葉，就是竹 (H)` },
+          { glyph: `彳`, sub: `雙人旁(如:行/很)`, tip: `兩撇雙人旁「彳」屬於竹 (H)` },
+          { glyph: `丿`, sub: `斜撇(如:千/生)`, tip: `單獨一斜撇，按竹 (H)` }
+        ],
+        confusedWith: ['O', 'T']
+      },
+      {
+        id: 'I', key: 'I', root: '戈', unit: 'strokes', unitLabel: '筆劃類',
+        shapes: [
+          { glyph: `广`, sub: `廣字頭(如:店/床)`, tip: `一點一橫斜屋簷「广」屬於戈 (I)` },
+          { glyph: `丶`, sub: `一點(如:主/玉)`, tip: `單獨一點「丶」就是戈 (I)` },
+          { glyph: `厶`, sub: `私字(如:去/私)`, tip: `三角形「厶」也是戈 (I)` }
+        ],
+        confusedWith: ['M', 'K']
+      },
+      {
+        id: 'J', key: 'J', root: '十', unit: 'strokes', unitLabel: '筆劃類',
+        shapes: [
+          { glyph: `宀`, sub: `寶蓋頭(如:家/字)`, tip: `點橫鉤屋頂「宀」屬於十 (J)` },
+          { glyph: `十`, sub: `十字(如:古/早)`, tip: `一橫一豎十字架就是十 (J)` }
+        ],
+        confusedWith: ['T', 'D']
+      },
+      {
+        id: 'K', key: 'K', root: '大', unit: 'strokes', unitLabel: '筆劃類',
+        shapes: [
+          { glyph: `乂`, sub: `交叉(如:文/希)`, tip: `兩筆大交叉「乂」屬於大 (K)` },
+          { glyph: `犭`, sub: `反犬旁(如:狗/貓)`, tip: `動物旁的「犭」屬於大 (K)` },
+          { glyph: `疒`, sub: `病字旁(如:病/痛)`, tip: `生病屋頂「疒」也是大 (K)` }
+        ],
+        confusedWith: ['I', 'O']
+      },
+      {
+        id: 'L', key: 'L', root: '中', unit: 'strokes', unitLabel: '筆劃類',
+        shapes: [
+          { glyph: `丨`, sub: `直豎(如:串/引)`, tip: `筆直一條豎線「丨」就是中 (L)` },
+          { glyph: `衤`, sub: `衣字旁(如:衫/補)`, tip: `衣服左偏旁「衤」屬於中 (L)` }
+        ],
+        confusedWith: ['H', 'N']
+      },
+      {
+        id: 'M', key: 'M', root: '一', unit: 'strokes', unitLabel: '筆劃類',
+        shapes: [
+          { glyph: `厂`, sub: `廠字頭(如:原/歷)`, tip: `沒有頭頂一點的「厂」是一 (M)` },
+          { glyph: `工`, sub: `工字(如:功/左)`, tip: `上下兩橫的「工」也是一 (M)` }
+        ],
+        confusedWith: ['I', 'S']
+      },
+      {
+        id: 'N', key: 'N', root: '弓', unit: 'strokes', unitLabel: '筆劃類',
+        shapes: [
+          { glyph: `乙`, sub: `乙字鉤(如:乞/九)`, tip: `彎彎曲曲的「乙」屬於弓 (N)` },
+          { glyph: `阝`, sub: `耳刀旁(如:阿/都)`, tip: `像小耳朵的「阝」首碼是弓 (N)` },
+          { glyph: `亅`, sub: `豎鉤(如:丁/了)`, tip: `帶小鉤子的「亅」也是弓 (N)` }
+        ],
+        confusedWith: ['L', 'Y']
+      },
+
+      // 人身類 & 字形類 (Lesson 9)
+      {
+        id: 'O', key: 'O', root: '人', unit: 'bodyshape', unitLabel: '人身類',
+        shapes: [
+          { glyph: `亻`, sub: `單人旁(如:你/他)`, tip: `站得直直的單人旁「亻」是人 (O)` },
+          { glyph: `𠆢`, sub: `人字頭(如:合/會)`, tip: `大屋頂蓋住下方的「𠆢」是人 (O)` }
+        ],
+        confusedWith: ['H', 'Q']
+      },
+      {
+        id: 'P', key: 'P', root: '心', unit: 'bodyshape', unitLabel: '人身類',
+        shapes: [
+          { glyph: `忄`, sub: `豎心旁(如:快/情)`, tip: `左邊豎心旁「忄」代表心情，按心 (P)` },
+          { glyph: `⺗`, sub: `心字底(如:慕/恭)`, tip: `底座小點心「⺗」也是心 (P)` },
+          { glyph: `匕`, sub: `匕首旁(如:比/北)`, tip: `小心！「匕」在倉頡屬於心 (P)` }
+        ],
+        confusedWith: ['Q', 'E']
+      },
+      {
+        id: 'Q', key: 'Q', root: '手', unit: 'bodyshape', unitLabel: '人身類',
+        shapes: [
+          { glyph: `扌`, sub: `提手旁(如:打/拍)`, tip: `做動作的提手旁「扌」就是手 (Q)` },
+          { glyph: `龵`, sub: `看字頭(如:看/拜)`, tip: `遮眼望遠的「龵」也是手 (Q)` }
+        ],
+        confusedWith: ['P', 'O']
+      },
+      {
+        id: 'R', key: 'R', root: '口', unit: 'bodyshape', unitLabel: '人身類',
+        shapes: [
+          { glyph: `口`, sub: `空心口(如:吃/唱)`, tip: `裡面空空的嘴巴「口」才是口 (R)` }
+        ],
+        confusedWith: ['W', 'U', 'A']
+      },
+      {
+        id: 'S', key: 'S', root: '尸', unit: 'bodyshape', unitLabel: '字形類',
+        shapes: [
+          { glyph: `尸`, sub: `尸字頭(如:屋/居)`, tip: `像小房子的「尸」就是尸 (S)` },
+          { glyph: `匚`, sub: `左三框(如:區/醫)`, tip: `開口向右的盒子「匚」屬於尸 (S)` }
+        ],
+        confusedWith: ['M', 'U']
+      },
+      {
+        id: 'T', key: 'T', root: '廿', unit: 'bodyshape', unitLabel: '字形類',
+        shapes: [
+          { glyph: `艹`, sub: `草字頭(如:花/草)`, tip: `花草樹木的「艹」屬於廿 (T) 喔！` }
+        ],
+        confusedWith: ['J', 'H']
+      },
+      {
+        id: 'U', key: 'U', root: '山', unit: 'bodyshape', unitLabel: '字形類',
+        shapes: [
+          { glyph: `凵`, sub: `開口框(如:凶/出)`, tip: `像山谷向上開口的「凵」是山 (U)` }
+        ],
+        confusedWith: ['W', 'R', 'S']
+      },
+      {
+        id: 'V', key: 'V', root: '女', unit: 'bodyshape', unitLabel: '字形類',
+        shapes: [
+          { glyph: `女`, sub: `女字旁(如:好/媽)`, tip: `女生邊旁就是女 (V)` },
+          { glyph: `く`, sub: `折彎(如:巡/災)`, tip: `像女字一撇一折的「く」是女 (V)` }
+        ],
+        confusedWith: ['N', 'K']
+      },
+      {
+        id: 'W', key: 'W', root: '田', unit: 'bodyshape', unitLabel: '字形類',
+        shapes: [
+          { glyph: `囗`, sub: `大框框(如:國/回)`, tip: `把字圍在裡面的大框「囗」是田 (W)` },
+          { glyph: `罒`, sub: `網字頭(如:買/罪)`, tip: `扁扁四格網「罒」也是田 (W)` }
+        ],
+        confusedWith: ['R', 'A', 'U']
+      },
+      {
+        id: 'Y', key: 'Y', root: '卜', unit: 'bodyshape', unitLabel: '字形類',
+        shapes: [
+          { glyph: `辶`, sub: `走之底(如:這/進)`, tip: `像小船的撐艇仔「辶」屬於卜 (Y)` }
+        ],
+        confusedWith: ['N', 'I']
+      }
+    ];
+
+    /* =========================================================================
+       2. GAME STATE & PERSISTENT STATS
+       ========================================================================= */
+    const GAME_DURATION = 60;
+    const HOLE_COUNT = 9;
+
+    const appState = {
+      unitFilter: 'all',     // 'all' | 'philosophical' | 'strokes' | 'bodyshape'
+      playMode: 'shape',     // 'shape' | 'key' | 'chaos'
+      guideFilter: 'all',
+      soundEnabled: true,
+      bestScore: 0,
+      bestCombo: 0,
+      gamesPlayed: 0
+    };
+
+    const runState = {
+      isPlaying: false,
+      timeLeft: GAME_DURATION,
+      score: 0,
+      combo: 0,
+      maxCombo: 0,
+      hits: 0,
+      attempts: 0,
+      currentTarget: null,   // radical object
+      currentShape: null,    // specific shape used when mode is 'key'
+      waveMode: 'shape',     // 'shape' or 'key' for active wave
+      hitsOnTarget: 0,
+      targetSwitches: 0,
+      holes: [],             // 9 hole states
+      encounteredMap: {},    // shapeKey -> { glyph, sub, tip, root, key, missedCount, hitCount, wrongGuessNote }
+      timerInterval: null,
+      spawnTimeout: null,
+      targetTimeout: null
+    };
+
+    /* =========================================================================
+       3. WEB AUDIO ARCADE SYNTHESIZER (Zero external assets)
+       ========================================================================= */
+    let audioCtx = null;
+
+    function getAudioCtx() {
+      if (!appState.soundEnabled) return null;
+      if (!audioCtx) {
+        const AudioContextCls = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextCls) audioCtx = new AudioContextCls();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+      return audioCtx;
+    }
+
+    function playPopSound() {
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(340, now);
+      osc.frequency.exponentialRampToValueAtTime(620, now + 0.08);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.1);
+    }
+
+    function playHitGoodSound(comboCount) {
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+
+      // Bonk thud
+      const bonk = ctx.createOscillator();
+      const bonkGain = ctx.createGain();
+      bonk.type = 'triangle';
+      bonk.frequency.setValueAtTime(260, now);
+      bonk.frequency.exponentialRampToValueAtTime(110, now + 0.09);
+      bonkGain.gain.setValueAtTime(0.22, now);
+      bonkGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+      bonk.connect(bonkGain);
+      bonkGain.connect(ctx.destination);
+      bonk.start(now);
+      bonk.stop(now + 0.11);
+
+      // Rising arcade chime based on combo
+      const baseFreq = 523.25 * Math.pow(1.059463, Math.min(comboCount, 12));
+      const chime = ctx.createOscillator();
+      const chimeGain = ctx.createGain();
+      chime.type = 'sine';
+      chime.frequency.setValueAtTime(baseFreq, now + 0.02);
+      chime.frequency.setValueAtTime(baseFreq * 1.25, now + 0.08);
+      chimeGain.gain.setValueAtTime(0.16, now + 0.02);
+      chimeGain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+      chime.connect(chimeGain);
+      chimeGain.connect(ctx.destination);
+      chime.start(now + 0.02);
+      chime.stop(now + 0.25);
+    }
+
+    function playHitBadSound() {
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(240, now);
+      osc.frequency.linearRampToValueAtTime(135, now + 0.2);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.23);
+    }
+
+    function playFeverSound() {
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const notes = [523.25, 659.25, 783.99, 1046.5];
+      notes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.055);
+        gain.gain.setValueAtTime(0.14, now + idx * 0.055);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.055 + 0.18);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + idx * 0.055);
+        osc.stop(now + idx * 0.055 + 0.2);
+      });
+    }
+
+    function playTickSound() {
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, now);
+      gain.gain.setValueAtTime(0.07, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.06);
+    }
+
+    function playFinishSound(isSuccess) {
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const notes = isSuccess
+        ? [523.25, 659.25, 783.99, 1046.5, 1318.5]
+        : [440, 493.88, 523.25, 659.25];
+      notes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.09);
+        gain.gain.setValueAtTime(0.16, now + idx * 0.09);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.09 + 0.28);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + idx * 0.09);
+        osc.stop(now + idx * 0.09 + 0.3);
+      });
+    }
+
+    /* =========================================================================
+       4. CANVAS CONFETTI & STARBURST ENGINE (Single RAF owner)
+       ========================================================================= */
+    const fxCanvas = document.getElementById('fx-canvas');
+    let fxCtx = fxCanvas ? fxCanvas.getContext('2d') : null;
+    let particles = [];
+    let rafId = null;
+
+    function getThemeColors() {
+      const styles = getComputedStyle(document.documentElement);
+      return [
+        styles.getPropertyValue('--primary').trim(),
+        styles.getPropertyValue('--secondary').trim(),
+        styles.getPropertyValue('--tertiary').trim(),
+        styles.getPropertyValue('--warning-bright').trim(),
+        styles.getPropertyValue('--primary-container').trim(),
+        styles.getPropertyValue('--meadow-edge').trim()
+      ];
+    }
+
+    function resizeFxCanvas() {
+      if (!fxCanvas) return;
+      const rect = fxCanvas.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        fxCanvas.width = rect.width;
+        fxCanvas.height = rect.height;
+      }
+    }
+
+    function spawnBurstAtElement(el, count, isCelebration) {
+      if (!fxCanvas || !fxCtx) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      resizeFxCanvas();
+      const canvasRect = fxCanvas.getBoundingClientRect();
+      let cx = fxCanvas.width / 2;
+      let cy = fxCanvas.height / 2;
+      if (el) {
+        const elRect = el.getBoundingClientRect();
+        cx = elRect.left - canvasRect.left + elRect.width / 2;
+        cy = elRect.top - canvasRect.top + elRect.height / 3;
+      }
+      const palette = getThemeColors();
+      for (let i = 0; i < count; i++) {
+        const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.6;
+        const speed = isCelebration ? (3 + Math.random() * 6.5) : (2.4 + Math.random() * 4.5);
+        particles.push({
+          x: cx,
+          y: cy,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - (isCelebration ? 3 : 2),
+          size: 5 + Math.random() * 6,
+          color: palette[i % palette.length],
+          life: 1,
+          decay: isCelebration ? 0.014 : 0.028,
+          rotation: Math.random() * Math.PI * 2,
+          vRot: (Math.random() - 0.5) * 0.25,
+          isStar: i % 2 === 0
+        });
+      }
+      if (!rafId) {
+        rafId = requestAnimationFrame(renderParticles);
+      }
+    }
+
+    function drawStarShape(ctx, x, y, r, rot) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(rot);
+      ctx.beginPath();
+      for (let i = 0; i < 5; i++) {
+        const outerA = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+        const innerA = outerA + Math.PI / 5;
+        ctx.lineTo(Math.cos(outerA) * r, Math.sin(outerA) * r);
+        ctx.lineTo(Math.cos(innerA) * (r * 0.45), Math.sin(innerA) * (r * 0.45));
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function renderParticles() {
+      if (!fxCanvas || !fxCtx) {
+        rafId = null;
+        return;
+      }
+      fxCtx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
+      const next = [];
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.18; // gentle gravity
+        p.rotation += p.vRot;
+        p.life -= p.decay;
+        if (p.life > 0) {
+          fxCtx.globalAlpha = Math.max(0, p.life);
+          fxCtx.fillStyle = p.color;
+          if (p.isStar) {
+            drawStarShape(fxCtx, p.x, p.y, p.size, p.rotation);
+          } else {
+            fxCtx.beginPath();
+            fxCtx.arc(p.x, p.y, p.size * 0.65, 0, Math.PI * 2);
+            fxCtx.fill();
+          }
+          next.push(p);
+        }
+      }
+      fxCtx.globalAlpha = 1;
+      particles = next;
+      if (particles.length > 0) {
+        rafId = requestAnimationFrame(renderParticles);
+      } else {
+        rafId = null;
+      }
+    }
+
+    /* =========================================================================
+       5. MOLE SVG BUILDER & GRID INITIALIZATION
+       ========================================================================= */
+    function createMoleSvg(exprState) {
+      // exprState: 'normal' | 'dizzy' | 'cheeky'
+      let eyesHtml = `
+        <circle cx="42" cy="40" r="4.5" fill="var(--on-surface)" />
+        <circle cx="43.5" cy="38.5" r="1.5" fill="var(--surface-container-low)" />
+        <circle cx="70" cy="40" r="4.5" fill="var(--on-surface)" />
+        <circle cx="71.5" cy="38.5" r="1.5" fill="var(--surface-container-low)" />
+        <path d="M 51 54 Q 56 58 61 54" stroke="var(--on-surface)" stroke-width="2.5" stroke-linecap="round" fill="none" />
+      `;
+      if (exprState === 'dizzy') {
+        eyesHtml = `
+          <text x="35" y="45" font-size="14" font-weight="900" fill="var(--warning-bright)">★</text>
+          <text x="64" y="45" font-size="14" font-weight="900" fill="var(--warning-bright)">★</text>
+          <path d="M 51 55 Q 56 64 61 55" fill="var(--primary)" stroke="var(--on-surface)" stroke-width="2" />
+        `;
+      } else if (exprState === 'cheeky') {
+        eyesHtml = `
+          <path d="M 37 41 L 46 37 L 37 35" stroke="var(--on-surface)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <path d="M 75 41 L 66 37 L 75 35" stroke="var(--on-surface)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <text x="84" y="26" font-size="15" font-weight="900" fill="var(--error)">?</text>
+          <path d="M 48 56 Q 56 51 64 56" stroke="var(--on-surface)" stroke-width="2.5" stroke-linecap="round" fill="none" />
+        `;
+      }
+
+      return `
+        <svg class="mole-svg" viewBox="0 0 112 76" aria-hidden="true">
+          <!-- Ears -->
+          <circle cx="26" cy="28" r="10" fill="var(--mole-fur-dark)" />
+          <circle cx="26" cy="28" r="5" fill="var(--mole-cheek)" />
+          <circle cx="86" cy="28" r="10" fill="var(--mole-fur-dark)" />
+          <circle cx="86" cy="28" r="5" fill="var(--mole-cheek)" />
+          <!-- Body / Head -->
+          <path d="M 18 76 C 18 28 32 14 56 14 C 80 14 94 28 94 76 Z" fill="var(--mole-fur)" />
+          <!-- Belly / Snout -->
+          <ellipse cx="56" cy="58" rx="24" ry="16" fill="var(--mole-belly)" />
+          <!-- Cheeks -->
+          <ellipse cx="34" cy="49" rx="6.5" ry="4" fill="var(--mole-cheek)" opacity="0.75" />
+          <ellipse cx="78" cy="49" rx="6.5" ry="4" fill="var(--mole-cheek)" opacity="0.75" />
+          <!-- Whiskers -->
+          <line x1="20" y1="48" x2="31" y2="50" stroke="var(--mole-fur-dark)" stroke-width="2" stroke-linecap="round" />
+          <line x1="21" y1="54" x2="31" y2="54" stroke="var(--mole-fur-dark)" stroke-width="2" stroke-linecap="round" />
+          <line x1="92" y1="48" x2="81" y2="50" stroke="var(--mole-fur-dark)" stroke-width="2" stroke-linecap="round" />
+          <line x1="91" y1="54" x2="81" y2="54" stroke="var(--mole-fur-dark)" stroke-width="2" stroke-linecap="round" />
+          <!-- Nose -->
+          <ellipse cx="56" cy="47" rx="6.5" ry="4.5" fill="var(--mole-nose)" />
+          ${eyesHtml}
+        </svg>
+      `;
+    }
+
+    function createMalletSvg() {
+      return `
+        <svg viewBox="0 0 80 80" aria-hidden="true">
+          <g transform="rotate(-15 40 40)">
+            <rect x="35" y="34" width="10" height="40" rx="5" fill="var(--mallet-handle)" stroke="var(--on-surface)" stroke-width="2.5" />
+            <rect x="14" y="12" width="52" height="28" rx="10" fill="var(--mallet-wood)" stroke="var(--on-surface)" stroke-width="2.5" />
+            <rect x="14" y="12" width="12" height="28" rx="6" fill="var(--mallet-head)" stroke="var(--on-surface)" stroke-width="2.5" />
+            <rect x="54" y="12" width="12" height="28" rx="6" fill="var(--mallet-head)" stroke="var(--on-surface)" stroke-width="2.5" />
+          </g>
+        </svg>
+      `;
+    }
+
+    function initMoleGrid() {
+      const grid = document.getElementById('mole-grid');
+      if (!grid) return;
+      let html = '';
+      for (let i = 0; i < HOLE_COUNT; i++) {
+        html += `
+          <div class="hole-cell" id="hole-cell-${i}">
+            <div class="float-feedback" id="float-fb-${i}"></div>
+            <div class="mallet-fx" id="mallet-fx-${i}">${createMalletSvg()}</div>
+            <div class="hole-pit">
+              <div class="hole-back"></div>
+              <button type="button" class="mole-btn" id="mole-btn-${i}" onclick="whackHole(${i})" aria-label="地鼠洞 ${i + 1}">
+                <div class="mole-card" id="mole-card-${i}">
+                  <span class="mole-glyph" id="mole-glyph-${i}">氵</span>
+                  <span class="mole-sub" id="mole-sub-${i}"></span>
+                </div>
+                <div id="mole-art-${i}">${createMoleSvg('normal')}</div>
+              </button>
+              <div class="hole-front-lip"></div>
+            </div>
+          </div>
+        `;
+        runState.holes.push({
+          index: i,
+          isUp: false,
+          isLocked: false,
+          isTarget: false,
+          payload: null,
+          hideTimer: null
+        });
+      }
+      grid.innerHTML = html;
+    }
+
+    /* =========================================================================
+       6. CORE GAMEPLAY LOGIC
+       ========================================================================= */
+    function getFilteredPool() {
+      if (appState.unitFilter === 'all') return CANGJIE_RADICALS;
+      return CANGJIE_RADICALS.filter((r) => r.unit === appState.unitFilter);
+    }
+
+    function pickNewTarget(avoidId) {
+      const pool = getFilteredPool();
+      const candidates = pool.length > 1 ? pool.filter((r) => r.id !== avoidId) : pool;
+      const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+
+      // Decide mode for this wave
+      let waveMode = appState.playMode;
+      if (waveMode === 'chaos') {
+        waveMode = runState.targetSwitches % 2 === 0 ? 'shape' : 'key';
+      }
+
+      runState.currentTarget = chosen;
+      runState.currentShape = chosen.shapes[Math.floor(Math.random() * chosen.shapes.length)];
+      runState.waveMode = waveMode;
+      runState.hitsOnTarget = 0;
+      runState.targetSwitches += 1;
+
+      updateMissionSignboard();
+      clearAllMolesQuickly();
+
+      // Immediately schedule a fresh wave so player never stares at empty holes
+      if (runState.isPlaying) {
+        clearTimeout(runState.spawnTimeout);
+        runState.spawnTimeout = setTimeout(spawnWave, 240);
+      }
+    }
+
+    function updateMissionSignboard() {
+      const board = document.getElementById('mission-board');
+      const badgeMain = document.getElementById('mission-badge-main');
+      const badgeKey = document.getElementById('mission-badge-key');
+      const titleEl = document.getElementById('mission-title');
+      const hintEl = document.getElementById('mission-hint');
+      const catPill = document.getElementById('mission-category-pill');
+
+      const t = runState.currentTarget;
+      const s = runState.currentShape;
+      if (!t || !s) return;
+
+      if (runState.waveMode === 'shape') {
+        if (badgeMain) badgeMain.textContent = t.root;
+        if (badgeKey) badgeKey.textContent = t.key;
+        if (titleEl) titleEl.textContent = `快找出【${t.root} (${t.key})】的變形小怪！`;
+        const sampleText = t.shapes.map((sh) => `${sh.glyph} (${sh.sub.split('(')[0]})`).join('、');
+        if (hintEl) hintEl.textContent = t.id === 'W' || t.id === 'R'
+          ? (t.id === 'W' ? `秘訣：要找「把字圍住」的大框囗或網字頭 罒！` : `秘訣：要找「裡面空空」的小口字旁！`)
+          : `家族提示：留意 ${sampleText}`;
+      } else {
+        if (badgeMain) badgeMain.textContent = s.glyph;
+        if (badgeKey) badgeKey.textContent = '?';
+        if (titleEl) titleEl.textContent = `「${s.glyph}」(${s.sub}) 屬於哪個鍵盤字母？`;
+        if (hintEl) hintEl.textContent = `快敲舉著正確【母字根＋字母】牌子的地鼠！`;
+      }
+
+      if (catPill) catPill.textContent = t.unitLabel;
+
+      if (board) {
+        board.classList.remove('is-pop');
+        void board.offsetWidth;
+        board.classList.add('is-pop');
+      }
+    }
+
+    function clearAllMolesQuickly() {
+      for (let i = 0; i < HOLE_COUNT; i++) {
+        hideHole(i);
+      }
+    }
+
+    function hideHole(idx) {
+      const hole = runState.holes[idx];
+      if (!hole) return;
+      clearTimeout(hole.hideTimer);
+      hole.isUp = false;
+      hole.isLocked = false;
+      const btn = document.getElementById(`mole-btn-${idx}`);
+      if (btn) {
+        btn.classList.remove('is-up', 'is-whacked-ok', 'is-whacked-bad');
+      }
+    }
+
+    function pickDecoyShape(targetRadical) {
+      const pool = getFilteredPool();
+      // 45% chance to pick a high-value confused twin if available
+      if (targetRadical.confusedWith && targetRadical.confusedWith.length > 0 && Math.random() < 0.45) {
+        const twinId = targetRadical.confusedWith[Math.floor(Math.random() * targetRadical.confusedWith.length)];
+        const twin = CANGJIE_RADICALS.find((r) => r.id === twinId);
+        if (twin) {
+          const sh = twin.shapes[Math.floor(Math.random() * twin.shapes.length)];
+          return { radical: twin, shape: sh };
+        }
+      }
+      const others = pool.filter((r) => r.id !== targetRadical.id);
+      const fallbackPool = others.length > 0 ? others : CANGJIE_RADICALS.filter((r) => r.id !== targetRadical.id);
+      const rad = fallbackPool[Math.floor(Math.random() * fallbackPool.length)];
+      const sh = rad.shapes[Math.floor(Math.random() * rad.shapes.length)];
+      return { radical: rad, shape: sh };
+    }
+
+    function getDifficultyTiming() {
+      const elapsed = GAME_DURATION - runState.timeLeft;
+      const comboBoost = Math.min(runState.combo * 22, 220);
+      const timeFactor = elapsed / GAME_DURATION; // 0 -> 1
+      const stayMs = Math.max(920, Math.round(1780 - timeFactor * 540 - comboBoost));
+      const nextSpawnMs = Math.max(520, Math.round(920 - timeFactor * 280 - comboBoost * 0.4));
+      const maxSimultaneous = elapsed > 40 ? 4 : (elapsed > 18 ? 3 : 3);
+      return { stayMs, nextSpawnMs, maxSimultaneous };
+    }
+
+    function spawnWave() {
+      if (!runState.isPlaying || !runState.currentTarget) return;
+
+      const { stayMs, nextSpawnMs, maxSimultaneous } = getDifficultyTiming();
+      const activeCount = runState.holes.filter((h) => h.isUp).length;
+      const available = runState.holes.filter((h) => !h.isUp);
+
+      if (available.length > 0 && activeCount < maxSimultaneous) {
+        // Ensure at least one target mole is visible if none are currently up
+        const anyTargetUp = runState.holes.some((h) => h.isUp && h.isTarget);
+        const spawnCount = Math.min(
+          available.length,
+          anyTargetUp ? (Math.random() < 0.55 ? 2 : 1) : 2
+        );
+
+        // Shuffle available holes
+        const shuffled = available.slice().sort(() => Math.random() - 0.5);
+        for (let i = 0; i < spawnCount; i++) {
+          const hole = shuffled[i];
+          const shouldBeTarget = (!anyTargetUp && i === 0) || Math.random() < 0.44;
+          showMoleInHole(hole.index, shouldBeTarget, stayMs + (i * 160));
+        }
+      }
+
+      clearTimeout(runState.spawnTimeout);
+      runState.spawnTimeout = setTimeout(spawnWave, nextSpawnMs);
+    }
+
+    function recordEncounter(radical, shape) {
+      const key = `${radical.id}:${shape.glyph}`;
+      if (!runState.encounteredMap[key]) {
+        runState.encounteredMap[key] = {
+          glyph: shape.glyph,
+          sub: shape.sub,
+          tip: shape.tip,
+          root: radical.root,
+          key: radical.key,
+          hitCount: 0,
+          missedCount: 0
+        };
+      }
+      return key;
+    }
+
+    function showMoleInHole(idx, isTarget, stayMs) {
+      const hole = runState.holes[idx];
+      if (!hole || hole.isUp) return;
+
+      const t = runState.currentTarget;
+      let chosenRad = t;
+      let chosenShape = t.shapes[Math.floor(Math.random() * t.shapes.length)];
+      if (!isTarget) {
+        const decoy = pickDecoyShape(t);
+        chosenRad = decoy.radical;
+        chosenShape = decoy.shape;
+      }
+
+      hole.isUp = true;
+      hole.isLocked = false;
+      hole.isTarget = isTarget;
+      hole.payload = { radical: chosenRad, shape: chosenShape };
+
+      if (isTarget) {
+        recordEncounter(chosenRad, chosenShape);
+      }
+
+      const btn = document.getElementById(`mole-btn-${idx}`);
+      const card = document.getElementById(`mole-card-${idx}`);
+      const glyphEl = document.getElementById(`mole-glyph-${idx}`);
+      const subEl = document.getElementById(`mole-sub-${idx}`);
+      const artEl = document.getElementById(`mole-art-${idx}`);
+
+      if (runState.waveMode === 'shape') {
+        if (card) card.classList.remove('is-key-card');
+        if (glyphEl) glyphEl.textContent = chosenShape.glyph;
+        if (subEl) {
+          // Give subtle clarity for 口 vs 囗 without giving away the answer!
+          subEl.textContent = chosenShape.glyph === '口' ? '空心口'
+            : (chosenShape.glyph === '囗' ? '圍住字大框' : chosenShape.sub.split('(')[0]);
+        }
+      } else {
+        if (card) card.classList.add('is-key-card');
+        if (glyphEl) glyphEl.textContent = `${chosenRad.key} ${chosenRad.root}`;
+        if (subEl) subEl.textContent = chosenRad.unitLabel;
+      }
+
+      if (artEl) artEl.innerHTML = createMoleSvg('normal');
+      if (btn) {
+        btn.classList.remove('is-whacked-ok', 'is-whacked-bad');
+        btn.classList.add('is-up');
+        btn.setAttribute('aria-label', `${chosenRad.root} ${chosenShape.glyph}`);
+      }
+
+      playPopSound();
+
+      clearTimeout(hole.hideTimer);
+      hole.hideTimer = setTimeout(() => {
+        hideHole(idx);
+      }, stayMs);
+    }
+
+    function showFloatFeedback(idx, text, isGood) {
+      const fb = document.getElementById(`float-fb-${idx}`);
+      if (!fb) return;
+      fb.textContent = text;
+      fb.classList.remove('is-good', 'is-bad');
+      void fb.offsetWidth;
+      fb.classList.add(isGood ? 'is-good' : 'is-bad');
+    }
+
+    function swingMallet(idx) {
+      const mallet = document.getElementById(`mallet-fx-${idx}`);
+      if (!mallet) return;
+      mallet.classList.remove('is-swing');
+      void mallet.offsetWidth;
+      mallet.classList.add('is-swing');
+    }
+
+    function getMultiplier(combo) {
+      if (combo >= 10) return 4;
+      if (combo >= 5) return 3;
+      if (combo >= 3) return 2;
+      return 1;
+    }
+
+    function whackHole(idx) {
+      if (!runState.isPlaying) return;
+      const hole = runState.holes[idx];
+      if (!hole || !hole.isUp || hole.isLocked) return;
+
+      hole.isLocked = true;
+      clearTimeout(hole.hideTimer);
+      runState.attempts += 1;
+
+      const btn = document.getElementById(`mole-btn-${idx}`);
+      const artEl = document.getElementById(`mole-art-${idx}`);
+      const stageShell = document.getElementById('stage-shell');
+      swingMallet(idx);
+
+      const { radical, shape } = hole.payload;
+      const encKey = recordEncounter(radical, shape);
+
+      if (hole.isTarget) {
+        // CORRECT HIT!
+        const prevCombo = runState.combo;
+        runState.combo += 1;
+        runState.hits += 1;
+        runState.hitsOnTarget += 1;
+        if (runState.combo > runState.maxCombo) {
+          runState.maxCombo = runState.combo;
+        }
+        runState.encounteredMap[encKey].hitCount += 1;
+
+        const mult = getMultiplier(runState.combo);
+        const points = 100 * mult;
+        runState.score += points;
+
+        if (artEl) artEl.innerHTML = createMoleSvg('dizzy');
+        if (btn) btn.classList.add('is-whacked-ok');
+
+        const cheers = runState.combo >= 10 ? 'ULTRA!!'
+          : (runState.combo >= 5 ? 'FEVER!!'
+          : (runState.combo >= 3 ? 'PERFECT!!' : 'FANTASTIC!'));
+        showFloatFeedback(idx, `+${points} ${cheers}`, true);
+
+        const cell = document.getElementById(`hole-cell-${idx}`);
+        spawnBurstAtElement(cell, runState.combo >= 5 ? 24 : 14, false);
+
+        if (prevCombo < 5 && runState.combo >= 5) {
+          playFeverSound();
+        } else {
+          playHitGoodSound(runState.combo);
+        }
+
+        hole.hideTimer = setTimeout(() => hideHole(idx), 340);
+
+        // Rotate target after 2 hits so students practice lots of shapes in 60s
+        if (runState.hitsOnTarget >= 2) {
+          clearTimeout(runState.targetTimeout);
+          runState.targetTimeout = setTimeout(() => {
+            if (runState.isPlaying) pickNewTarget(runState.currentTarget.id);
+          }, 360);
+        }
+      } else {
+        // WRONG HIT!
+        runState.combo = 0;
+        runState.score = Math.max(0, runState.score - 30);
+        runState.encounteredMap[encKey].missedCount += 1;
+
+        if (artEl) artEl.innerHTML = createMoleSvg('cheeky');
+        if (btn) btn.classList.add('is-whacked-bad');
+
+        showFloatFeedback(idx, `Oops! 這是【${radical.root} ${radical.key}】`, false);
+        playHitBadSound();
+
+        if (stageShell) {
+          stageShell.classList.remove('is-shake');
+          void stageShell.offsetWidth;
+          stageShell.classList.add('is-shake');
+        }
+
+        hole.hideTimer = setTimeout(() => hideHole(idx), 460);
+      }
+
+      updateHud();
+    }
+
+    function updateHud() {
+      const timerEl = document.getElementById('hud-timer');
+      const timerBar = document.getElementById('timer-bar');
+      const timerTag = document.getElementById('timer-status-tag');
+      const scoreEl = document.getElementById('hud-score');
+      const comboEl = document.getElementById('hud-combo');
+      const multBadge = document.getElementById('multiplier-badge');
+      const comboTag = document.getElementById('combo-state-tag');
+      const hitsLabel = document.getElementById('hud-hits-label');
+      const accEl = document.getElementById('hud-accuracy');
+      const stageShell = document.getElementById('stage-shell');
+
+      if (timerEl) {
+        timerEl.textContent = `${runState.timeLeft}s`;
+        timerEl.classList.toggle('accent-danger', runState.isPlaying && runState.timeLeft <= 10);
+      }
+      if (timerBar) {
+        const pct = Math.max(0, (runState.timeLeft / GAME_DURATION) * 100);
+        timerBar.style.width = `${pct}%`;
+        timerBar.classList.toggle('is-warn', runState.timeLeft <= 20 && runState.timeLeft > 10);
+        timerBar.classList.toggle('is-urgent', runState.timeLeft <= 10);
+      }
+      if (timerTag) {
+        timerTag.textContent = !runState.isPlaying
+          ? (runState.timeLeft === 0 ? '時間到！' : '準備開戰')
+          : (runState.timeLeft <= 10 ? '⚡ 最後衝刺！' : '激戰中');
+      }
+
+      if (scoreEl) scoreEl.textContent = String(runState.score);
+      if (comboEl) comboEl.textContent = String(runState.combo);
+
+      const mult = getMultiplier(runState.combo);
+      const isFever = runState.combo >= 5;
+      if (multBadge) {
+        multBadge.textContent = `${mult}X 倍率`;
+        multBadge.classList.toggle('is-fever', isFever);
+      }
+      if (comboTag) {
+        comboTag.textContent = runState.combo >= 10 ? '⚡ ULTRA!'
+          : (isFever ? '🔥 FEVER!'
+          : (runState.combo >= 3 ? '✨ 2X連擊' : '蓄力中'));
+        comboTag.classList.toggle('is-fever', isFever);
+      }
+      if (stageShell) {
+        stageShell.classList.toggle('is-fever', runState.isPlaying && isFever);
+      }
+
+      const acc = runState.attempts > 0
+        ? Math.round((runState.hits / runState.attempts) * 100)
+        : 100;
+      if (hitsLabel) hitsLabel.textContent = `${runState.hits} 擊中`;
+      if (accEl) accEl.textContent = `${acc}%`;
+    }
+
+    /* =========================================================================
+       7. GAME LIFECYCLE (Start / Tick / End / Report)
+       ========================================================================= */
+    function startOrRestartGame() {
+      // Unlock Web Audio cleanly on user click
+      getAudioCtx();
+
+      clearInterval(runState.timerInterval);
+      clearTimeout(runState.spawnTimeout);
+      clearTimeout(runState.targetTimeout);
+      clearAllMolesQuickly();
+
+      runState.isPlaying = true;
+      runState.timeLeft = GAME_DURATION;
+      runState.score = 0;
+      runState.combo = 0;
+      runState.maxCombo = 0;
+      runState.hits = 0;
+      runState.attempts = 0;
+      runState.targetSwitches = 0;
+      runState.encounteredMap = {};
+
+      const overlay = document.getElementById('stage-overlay');
+      const quickBtn = document.getElementById('quick-action-btn');
+      if (overlay) overlay.classList.add('is-hidden');
+      if (quickBtn) quickBtn.textContent = '🔄 重新開局';
+
+      updateHud();
+      pickNewTarget(null);
+
+      runState.timerInterval = setInterval(() => {
+        runState.timeLeft -= 1;
+        if (runState.timeLeft <= 10 && runState.timeLeft > 0) {
+          playTickSound();
+        }
+        updateHud();
+        if (runState.timeLeft <= 0) {
+          finishGame();
+        }
+      }, 1000);
+    }
+
+    function finishGame() {
+      runState.isPlaying = false;
+      clearInterval(runState.timerInterval);
+      clearTimeout(runState.spawnTimeout);
+      clearTimeout(runState.targetTimeout);
+      clearAllMolesQuickly();
+
+      const acc = runState.attempts > 0
+        ? Math.round((runState.hits / runState.attempts) * 100)
+        : 0;
+
+      // Determine Rank & Verdict
+      let rankCode = 'B';
+      let rankText = 'B 級・潛力小新星';
+      let rankClass = '';
+      let isSuccess = false;
+
+      if ((runState.score >= 1600 && acc >= 80) || runState.score >= 2200) {
+        rankCode = 'S';
+        rankText = 'S 級・倉頡神探';
+        rankClass = 'rank-s';
+        isSuccess = true;
+      } else if (runState.score >= 900 && acc >= 70) {
+        rankCode = 'A';
+        rankText = 'A 級・打字達人';
+        rankClass = 'rank-a';
+        isSuccess = true;
+      }
+
+      const isNewRecord = runState.score > appState.bestScore && runState.score > 0;
+      if (runState.score > appState.bestScore) appState.bestScore = runState.score;
+      if (runState.maxCombo > appState.bestCombo) appState.bestCombo = runState.maxCombo;
+      appState.gamesPlayed += 1;
+
+      updatePersistentBadges();
+      savePersistedState();
+
+      // Update Result UI
+      const overlay = document.getElementById('stage-overlay');
+      const startView = document.getElementById('overlay-start-view');
+      const resultView = document.getElementById('overlay-result-view');
+      const verdictBadge = document.getElementById('result-verdict-badge');
+      const newRecBadge = document.getElementById('result-new-record');
+      const headlineEl = document.getElementById('result-headline');
+      const rankStamp = document.getElementById('result-rank-stamp');
+
+      if (startView) startView.hidden = true;
+      if (resultView) resultView.hidden = false;
+      if (overlay) overlay.classList.remove('is-hidden');
+
+      if (verdictBadge) {
+        verdictBadge.textContent = isSuccess ? 'SUCCESS 過關成功！' : 'CHALLENGE AGAIN 再戰一局！';
+      }
+      if (newRecBadge) newRecBadge.hidden = !isNewRecord;
+      if (headlineEl) {
+        headlineEl.innerHTML = isSuccess
+          ? `太強了！拿下 <em>${rankCode} 級</em> 佳績！`
+          : `好可惜！再拼一局衝上 <em>A 級</em>！`;
+      }
+      if (rankStamp) {
+        rankStamp.textContent = rankText;
+        rankStamp.className = `rank-stamp ${rankClass}`;
+      }
+
+      const resScore = document.getElementById('res-score');
+      const resCombo = document.getElementById('res-combo');
+      const resHits = document.getElementById('res-hits');
+      const resAcc = document.getElementById('res-acc');
+      if (resScore) resScore.textContent = String(runState.score);
+      if (resCombo) resCombo.textContent = `${runState.maxCombo}x`;
+      if (resHits) resHits.textContent = String(runState.hits);
+      if (resAcc) resAcc.textContent = `${acc}%`;
+
+      renderReviewCheatSheet();
+      updateHud();
+
+      playFinishSound(isSuccess);
+      if (isSuccess) {
+        const stageShell = document.getElementById('stage-shell');
+        spawnBurstAtElement(stageShell, 45, true);
+      }
+    }
+
+    function renderReviewCheatSheet() {
+      const grid = document.getElementById('result-review-grid');
+      if (!grid) return;
+
+      const items = Object.values(runState.encounteredMap);
+      // Sort missed items first so kids immediately see what tricked them
+      items.sort((a, b) => b.missedCount - a.missedCount || b.hitCount - a.hitCount);
+      const topItems = items.slice(0, 6);
+
+      if (topItems.length === 0) {
+        grid.innerHTML = `<div class="review-item"><div class="review-meta"><span class="review-root">本局尚未敲擊地鼠</span><span class="review-tip">點擊「再玩一次」，看見目標字形就勇敢敲下去！</span></div></div>`;
+        return;
+      }
+
+      grid.innerHTML = topItems.map((item) => {
+        const missedTag = item.missedCount > 0 ? `⚠️ 易錯・` : `✓ `;
+        return `
+          <div class="review-item ${item.missedCount > 0 ? 'is-missed' : ''}">
+            <div class="review-glyph">${item.glyph}</div>
+            <div class="review-meta">
+              <span class="review-root">${missedTag}${item.root} (${item.key})</span>
+              <span class="review-tip">${item.tip}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function closeResultToIdle() {
+      const overlay = document.getElementById('stage-overlay');
+      const startView = document.getElementById('overlay-start-view');
+      const resultView = document.getElementById('overlay-result-view');
+      if (resultView) resultView.hidden = true;
+      if (startView) startView.hidden = false;
+      if (overlay) overlay.classList.remove('is-hidden');
+      runState.timeLeft = GAME_DURATION;
+      updateHud();
+    }
+
+    /* =========================================================================
+       8. CONTROLS, ENCYCLOPEDIA & PERSISTENCE
+       ========================================================================= */
+    function setUnitFilter(unit) {
+      appState.unitFilter = unit;
+      document.querySelectorAll('[data-unit]').forEach((btn) => {
+        btn.setAttribute('aria-pressed', btn.dataset.unit === unit ? 'true' : 'false');
+      });
+      if (runState.isPlaying) {
+        startOrRestartGame();
+      } else {
+        const pool = getFilteredPool();
+        runState.currentTarget = pool[0];
+        runState.currentShape = pool[0].shapes[0];
+        updateMissionSignboard();
+      }
+      savePersistedState();
+    }
+
+    function setPlayMode(mode) {
+      appState.playMode = mode;
+      document.querySelectorAll('[data-mode]').forEach((btn) => {
+        btn.setAttribute('aria-pressed', btn.dataset.mode === mode ? 'true' : 'false');
+      });
+      runState.waveMode = mode === 'chaos' ? 'shape' : mode;
+      if (runState.isPlaying) {
+        startOrRestartGame();
+      } else {
+        updateMissionSignboard();
+      }
+      savePersistedState();
+    }
+
+    function toggleSound() {
+      appState.soundEnabled = !appState.soundEnabled;
+      updateSoundButton();
+      savePersistedState();
+    }
+
+    function updateSoundButton() {
+      const btn = document.getElementById('sound-toggle-btn');
+      if (!btn) return;
+      btn.setAttribute('aria-pressed', appState.soundEnabled ? 'true' : 'false');
+      btn.textContent = appState.soundEnabled ? '🔊 音效：開啟' : '🔇 音效：靜音';
+    }
+
+    function scrollToGuide() {
+      const el = document.getElementById('guide-section');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function filterGuide(cat) {
+      appState.guideFilter = cat;
+      document.querySelectorAll('[data-guide]').forEach((btn) => {
+        btn.setAttribute('aria-pressed', btn.dataset.guide === cat ? 'true' : 'false');
+      });
+      renderGuideCards();
+    }
+
+    function renderGuideCards() {
+      const grid = document.getElementById('guide-card-grid');
+      if (!grid) return;
+      const list = appState.guideFilter === 'all'
+        ? CANGJIE_RADICALS
+        : CANGJIE_RADICALS.filter((r) => r.unit === appState.guideFilter);
+
+      grid.innerHTML = list.map((r) => {
+        const pills = r.shapes.map((sh) => `
+          <span class="shape-pill">
+            <strong>${sh.glyph}</strong>
+            <span>${sh.sub}</span>
+          </span>
+        `).join('');
+        return `
+          <div class="card-wrapper">
+            <article class="guide-card">
+              <div class="guide-card-head">
+                <div class="guide-root-badge">
+                  <span class="guide-key">${r.key}</span>
+                  <span>${r.root}</span>
+                </div>
+                <span class="badge badge-grape">${r.unitLabel}</span>
+              </div>
+              <div class="guide-shapes-row">${pills}</div>
+              <p class="guide-note">${r.shapes[0].tip}</p>
+            </article>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updatePersistentBadges() {
+      const bestScoreEl = document.getElementById('best-score-badge');
+      const bestComboEl = document.getElementById('best-combo-badge');
+      if (bestScoreEl) bestScoreEl.textContent = `最高分：${appState.bestScore}`;
+      if (bestComboEl) bestComboEl.textContent = `最佳連擊：${appState.bestCombo}x`;
+    }
+
+    async function savePersistedState() {
+      if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === 'function') {
+        try {
+          await window.notebookAppApi.setAppState({
+            bestScore: appState.bestScore,
+            bestCombo: appState.bestCombo,
+            gamesPlayed: appState.gamesPlayed,
+            soundEnabled: appState.soundEnabled,
+            unitFilter: appState.unitFilter,
+            playMode: appState.playMode
+          });
+        } catch (err) {
+          // Ignore storage error gracefully
+        }
+      }
+    }
+
+    async function loadPersistedState() {
+      if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === 'function') {
+        try {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === 'object') {
+            if (typeof saved.bestScore === 'number') appState.bestScore = saved.bestScore;
+            if (typeof saved.bestCombo === 'number') appState.bestCombo = saved.bestCombo;
+            if (typeof saved.gamesPlayed === 'number') appState.gamesPlayed = saved.gamesPlayed;
+            if (typeof saved.soundEnabled === 'boolean') appState.soundEnabled = saved.soundEnabled;
+            if (typeof saved.unitFilter === 'string') appState.unitFilter = saved.unitFilter;
+            if (typeof saved.playMode === 'string') appState.playMode = saved.playMode;
+          }
+        } catch (err) {
+          // Ignore load error gracefully
+        }
+      }
+    }
+
+    /* Keyboard shortcut 1-9 for arcade speed! */
+    document.addEventListener('keydown', (e) => {
+      if (!runState.isPlaying) return;
+      const num = parseInt(e.key, 10);
+      if (num >= 1 && num <= 9) {
+        whackHole(num - 1);
+      }
+    });
+
+    window.addEventListener('resize', resizeFxCanvas);
+
+    async function initApp() {
+      initMoleGrid();
+      await loadPersistedState();
+
+      // Sync UI controls with loaded state
+      document.querySelectorAll('[data-unit]').forEach((btn) => {
+        btn.setAttribute('aria-pressed', btn.dataset.unit === appState.unitFilter ? 'true' : 'false');
+      });
+      document.querySelectorAll('[data-mode]').forEach((btn) => {
+        btn.setAttribute('aria-pressed', btn.dataset.mode === appState.playMode ? 'true' : 'false');
+      });
+      updateSoundButton();
+      updatePersistentBadges();
+      renderGuideCards();
+
+      const pool = getFilteredPool();
+      runState.currentTarget = pool.find((r) => r.id === 'E') || pool[0];
+      runState.currentShape = runState.currentTarget.shapes[0];
+      runState.waveMode = appState.playMode === 'chaos' ? 'shape' : appState.playMode;
+      updateMissionSignboard();
+      updateHud();
+      resizeFxCanvas();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === 'function') {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    initApp();
+  </script>
+</body>
+</html>
